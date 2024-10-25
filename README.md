@@ -142,3 +142,6 @@ This package conveniently includes a command line tool to generate keys, exposed
 $ npx cookiekey
 BGSzELbpBuESqmKyhtw/9zD7sHIy2hf/kSK0y0U0L60=
 ```
+
+### Environment
+Save the secret key as part of your server environment; this system depends on always using the same secret key.
