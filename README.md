@@ -40,12 +40,41 @@ npm i -S @nichoth/session-cookie
 These functions should all be run in a server.
 
 ### Create a cookie
+Create a string suitable for use as a cookie. Sign the given data with a secret key, and stringify the signature + JSON data as a `base64` string.
+
+>
+> [!NOTE]  
+> This will add default values for additional cookie attributes -- `Max-Age=604800` (1 week), `Path=/`, `HttpOnly`, `Secure`, `SameSite=Lax`.
+>
+
+These environment variables can be used to set the cookie attributes:
+
+```
+SESSION_COOKIE_HTTPONLY
+SESSION_COOKIE_SECURE
+SESSION_COOKIE_SAMESITE
+SESSION_COOKIE_MAX_AGE_SPAN
+SESSION_COOKIE_DOMAIN
+SESSION_COOKIE_PATH
+```
+
 ```js
 import { createCookie } from '@nichoth/session-cookie'
 
 const cookie = createCookie({ hello: 'world' }, SECRET_KEY)
 console.log(cookie)
 // => session=vTAHUs4nBS65UPy4AdnIMVdh-5MeyJoZWxsbyI6IndvcmxkIn0; Max-Age=604800; Path=/; HttpOnly; Secure; SameSite=Lax
+```
+
+#### `createCookie (sessionData, secretKey, name?, env?)`
+
+```ts
+function createCookie (
+    sessionData:Record<string, string>,
+    secretKey:string,
+    name?:string,
+    env?:CookieEnv,
+):string
 ```
 
 ### Create headers
@@ -137,7 +166,7 @@ require('@nichoth/session-cookie')
 ## Generate a secret key
 Session cookies are signed using [HMAC SHA256](https://en.wikipedia.org/wiki/HMAC), which requires using a secret key of at least 32 bytes of length.
 
-This package conveniently includes a command line tool to generate keys, exposed as `cookiekey`. After installing this as a dependency:
+This package conveniently includes a command line tool to generate keys, exposed as `cookiekey`. After installing this as a dependency, use it like this:
 
 ```sh
 $ npx cookiekey

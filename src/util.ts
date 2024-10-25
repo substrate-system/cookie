@@ -4,7 +4,7 @@ import crypto from 'crypto'
 /**
  * Default for the "Max-Age" attribute of the session cookie.
  */
-const SESSION_COOKIE_MAX_AGE_SPAN_DEFAULT = (60 * 60 * 24 * 7)
+const SESSION_COOKIE_MAX_AGE_SPAN_DEFAULT = (60 * 60 * 24 * 7)  // 1 week
 
 // Implements Brad Hill's Double HMAC pattern from
 // https://www.nccgroup.trust/us/about-us/newsroom-and-events/blog/2011/february/double-hmac-verification/.
@@ -214,6 +214,15 @@ function isDate (val:any):boolean {
       val instanceof Date
 }
 
+export type CookieEnv = Partial<{
+    SESSION_COOKIE_HTTPONLY:string;
+    SESSION_COOKIE_SECURE:string;
+    SESSION_COOKIE_SAMESITE:string;
+    SESSION_COOKIE_MAX_AGE_SPAN:string;
+    SESSION_COOKIE_DOMAIN:string;
+    SESSION_COOKIE_PATH:string;
+}>
+
 /**
  * Builds an option object to be used by the cookie serializer.
  * All options have defaults which can be edited using environment variables.
@@ -240,7 +249,7 @@ function isDate (val:any):boolean {
  * @returns {object} - Options object for `cookie.serialize`
  * @private
  */
-export function getCookieOptions () {
+export function getCookieOptions (env:CookieEnv = {}) {
     // Defaults (options detail: https://github.com/jshttp/cookie#options-1)
     const options:Partial<{
         httpOnly,
@@ -267,7 +276,7 @@ export function getCookieOptions () {
         SESSION_COOKIE_MAX_AGE_SPAN,
         SESSION_COOKIE_DOMAIN,
         SESSION_COOKIE_PATH
-    } = process.env
+    } = env
 
     // HttpOnly
     if (SESSION_COOKIE_HTTPONLY === '0') {

@@ -2,6 +2,7 @@ import crypto from 'crypto'
 import stringify from 'json-canon'
 import { fromString, toString } from 'uint8arrays'
 import {
+    type CookieEnv,
     getCookieOptions,
     timeSafeCompare as compare,
     serializeCookie
@@ -72,16 +73,25 @@ export function setCookie (
     return headers
 }
 
+/**
+ * Create a cookie and return it as a string.
+ *
+ * @param sessionData Data to encode with the cookie
+ * @param secretKey The secret key
+ * @param name The name for the cookie; defaults to `session`
+ * @returns {string} The cookie as string
+ */
 export function createCookie (
     sessionData:Record<string, string>,
     secretKey:string,
     name?:string,
+    env?:CookieEnv,
 ):string {
     const session = createSession(sessionData, secretKey)
     const newCookie = serializeCookie(
         name || SESSION_COOKIE_NAME_DEFAULT,
         session,
-        getCookieOptions()
+        getCookieOptions(env)
     )
 
     return newCookie
