@@ -69,9 +69,9 @@ test('parse a cookie', t => {
 })
 
 test('parse the session string', t => {
-    t.ok(verifySessionString(parsed.session as string, SECRET_KEY),
+    t.ok(verifySessionString(parsed.session, SECRET_KEY),
         'should be a valid session')
-    const session = parseSession(parsed.session as string)
+    const session = parseSession(parsed.session)
     t.deepEqual(session, {
         hello: 'world'
     }, 'should parse to the same data we passed in')
