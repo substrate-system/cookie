@@ -139,5 +139,6 @@ Session cookies are signed using [HMAC SHA256](https://en.wikipedia.org/wiki/HMA
 This package conveniently includes a command line tool to generate keys, exposed as `cookiekey`. After installing this as a dependency:
 
 ```sh
-npx cookiekey
+$ npx cookiekey
+BGSzELbpBuESqmKyhtw/9zD7sHIy2hf/kSK0y0U0L60=
 ```
