@@ -1,6 +1,6 @@
 {
   "name": "@nichoth/session-cookie",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Cookies",
   "directories": {
     "test": "test"
