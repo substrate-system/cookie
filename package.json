@@ -1,12 +1,12 @@
 {
   "name": "@nichoth/session-cookie",
+  "version": "0.1.0",
   "description": "Cookies",
   "directories": {
     "test": "test"
   },
   "private": true,
   "type": "module",
-  "version": "0.0.0",
   "main": "dist/index.js",
   "bin": {
     "cookiekey": "dist/bin.js"
@@ -44,7 +44,6 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@nichoth/cookie": "^1.0.1",
     "json-canon": "^1.0.1",
     "uint8arrays": "^5.1.0"
   },
