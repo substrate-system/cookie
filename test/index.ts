@@ -43,8 +43,8 @@ test('Create some headers', t => {
     const headers2 = new Headers()
     const headers3 = setCookie(cookie, headers2)
     t.equal(headers2, headers3, 'should patch a given Headers instance')
-    t.ok(parseCookie(headers.getSetCookie()[0]).session,
-        'should add the right data to the headers')
+    t.ok(parseCookie(headers2.getSetCookie()[0]).session,
+        'should patch the headers we passsed in')
 })
 
 test('Cookie in the headers', t => {
