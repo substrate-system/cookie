@@ -1,5 +1,5 @@
 'use strict'
-import crypto from 'crypto'
+import crypto from 'node:crypto'
 
 /**
  * Default for the "Max-Age" attribute of the session cookie.

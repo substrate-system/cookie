@@ -1,4 +1,4 @@
-import crypto from 'crypto'
+import crypto from 'node:crypto'
 import stringify from 'json-canon'
 import { fromString, toString } from 'uint8arrays'
 import {
