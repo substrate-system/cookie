@@ -5,7 +5,6 @@
   "directories": {
     "test": "test"
   },
-  "private": true,
   "type": "module",
   "main": "dist/index.js",
   "bin": {
