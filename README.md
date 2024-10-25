@@ -24,6 +24,7 @@ Sign session data with a secret key.
   * [ESM](#esm)
   * [Common JS](#common-js)
 - [Generate a secret key](#generate-a-secret-key)
+  * [Environment](#environment)
 
 <!-- tocstop -->
 
