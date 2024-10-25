@@ -37,7 +37,7 @@ npm i -S @nichoth/session-cookie
 ```
 
 ## Example
-These functions should all run in a server. Has been tested with Cloudflare.
+These functions should all be run in a server.
 
 ### Create a cookie
 ```js
