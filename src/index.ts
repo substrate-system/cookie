@@ -30,15 +30,15 @@ const SIGNATURE_DIGEST_LENGTH = 27
 export function parseCookie (
     cookie:string,
     _decode?:(s:string)=>string
-):Record<string, string|boolean> {
+):(Record<string, string|boolean> & { session:string }) {
     const dec = _decode || decode
     const parsed = cookie.split(';').map(str => {
         const split = str.trim().split('=')
         return split
-    }).reduce<Record<string, string>>((acc, val) => {
+    }).reduce<Record<string, string> & { session:string }>((acc, val) => {
         acc[val[0]] = tryDecode(val[1], dec) ?? true
         return acc
-    }, {})
+    }, { session: '' })
 
     return parsed
 }

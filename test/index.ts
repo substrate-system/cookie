@@ -52,7 +52,7 @@ test('Cookie in the headers', t => {
     t.equal(cookieFromHeaders, cookie, 'should put the string in the headers')
 })
 
-let parsed:Record<string, string|boolean>
+let parsed:ReturnType<typeof parseCookie>
 test('parse a cookie', t => {
     parsed = parseCookie('session=vTAHUs4nBS65UPy4AdnIMVdh-5MeyJoZWxsbyI6IndvcmxkIn0; Max-Age=604800; Path=/; HttpOnly; Secure; SameSite=Lax')
     t.deepEqual(parsed, {
@@ -64,7 +64,7 @@ test('parse a cookie', t => {
         SameSite: 'Lax'
     }, 'should parse the cookie string')
 
-    t.ok(verifySessionString(parsed.session as string, SECRET_KEY),
+    t.ok(verifySessionString(parsed.session, SECRET_KEY),
         'should verify the session token')
 })
 
