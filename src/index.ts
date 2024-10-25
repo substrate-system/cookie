@@ -152,7 +152,7 @@ export function verifySessionString (session:string, key:string):boolean {
  * @param {string} signature The signature to check
  * @returns {boolean} True or false, if the signature is valid or not
  */
-export function verify (
+function verify (
     key:string,
     data:Buffer|string,
     signature:string
