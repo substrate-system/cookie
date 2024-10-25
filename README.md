@@ -136,7 +136,7 @@ require('@nichoth/session-cookie')
 ## Generate a secret key
 Session cookies are signed using [HMAC SHA256](https://en.wikipedia.org/wiki/HMAC), which requires using a secret key of at least 32 bytes of length.
 
-This package conveniently include a command line tool to generate keys, exposed as `cookiekey`. After installing this as a dependency:
+This package conveniently includes a command line tool to generate keys, exposed as `cookiekey`. After installing this as a dependency:
 
 ```sh
 npx cookiekey
