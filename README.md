@@ -10,7 +10,23 @@
 Sign session data with a secret key.
 
 <details><summary><h2>Contents</h2></summary>
+
 <!-- toc -->
+
+- [install](#install)
+- [Example](#example)
+  * [Create a cookie](#create-a-cookie)
+  * [Create headers](#create-headers)
+  * [Parse a cookie](#parse-a-cookie)
+  * [Parse a session token](#parse-a-session-token)
+  * [Verify a session token](#verify-a-session-token)
+- [Format](#format)
+  * [ESM](#esm)
+  * [Common JS](#common-js)
+- [Generate a secret key](#generate-a-secret-key)
+
+<!-- tocstop -->
+
 </details>
 
 ## install
