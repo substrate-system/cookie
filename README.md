@@ -1,36 +1,127 @@
-# template ts browser
+# session cookie
+![tests](https://github.com/nichoth/session-cookie/actions/workflows/nodejs.yml/badge.svg)
+[![types](https://img.shields.io/npm/types/@nichoth/session-cookie?style=flat-square)](README.md)
+[![module](https://img.shields.io/badge/module-ESM%2FCJS-blue?style=flat-square)](README.md)
+[![semantic versioning](https://img.shields.io/badge/semver-2.0.0-blue?logo=semver&style=flat-square)](https://semver.org/)
+[![Common Changelog](https://nichoth.github.io/badge/common-changelog.svg)](./CHANGELOG.md)
+[![install size](https://packagephobia.com/badge?p=@nichoth/session-cookie)](https://packagephobia.com/result?p=@nichoth/session-cookie)
+[![license](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
-A template for typescript *dependency* modules that run in a browser environment.
-Uses `tape-run` for tests in a browser. See [template-ts](https://github.com/nichoth/template-ts) for the same thing but targeting Node.
+Sign session data with a secret key.
 
-## use
-1. Use the template button in github. Or clone this then
-`rm -rf .git && git init`. Then `npm i && npm init`.
+<details><summary><h2>Contents</h2></summary>
+<!-- toc -->
+</details>
 
-2. Edit the source code in `src/index.ts`.
+## install
 
-3. Delete either `.github/workflows/gh-pages-docs.yml` or `.github/workflows/gh-pages.yml`, depending on whether you want to deploy an example or docs to github pages.
+```sh
+npm i -S @nichoth/session-cookie
+```
 
-4. __Edit things__
-    * Use `./README.example.md` as a starter for docs:
-    ```sh
-    cp ./README.example.md ./README.md
-    ```
-    * edit the [build-example](https://github.com/nichoth/template-web-component/blob/c580636f1c912fe2633f7c2478f28b11729c9b80/package.json#L20) command in `package.json` so that it has the right
-    namespace for github pages
+## Example
+These functions should all run in a server. Has been tested with Cloudflare.
 
-## featuring
+### Create a cookie
+```js
+import { createCookie } from '@nichoth/session-cookie'
 
-* compile the source to both ESM and CJS format, and put compiled files in `dist`.
-* ignore `dist` and `*.js` in git, but don't ignore them in npm. That way we
-  don't commit any compiled code to git, but it is available to consumers.
-* use npm's `prepublishOnly` hook to compile the code before publishing to npm.
-* use [exports](./package.json#L41) field in `package.json` to make sure the right format is used
-  by consumers.
-* `preversion` npm hook -- lint
-* `postversion` npm hook -- `git push --follow-tags && npm publish`
-* eslint -- `npm run lint`
-* tests run in a browser environment via `tape-run` -- see [`npm test`](./package.json#L12).
-  Includes `tap` testing tools -- [tapzero](https://github.com/bicycle-codes/tapzero)
-  and [tap-spec](https://www.npmjs.com/package/tap-spec)
-* CI via github actions
+const cookie = createCookie({ hello: 'world' }, SECRET_KEY)
+console.log(cookie)
+// => session=vTAHUs4nBS65UPy4AdnIMVdh-5MeyJoZWxsbyI6IndvcmxkIn0; Max-Age=604800; Path=/; HttpOnly; Secure; SameSite=Lax
+```
+
+### Create headers
+Create or patch a `Headers` instance.
+
+```js
+import { setCookie } from '@nichoth/session-cookie'
+
+const headers = setCookie(cookie)
+```
+
+#### `setCookie(cookie, headers?:Headers)`
+
+```ts
+function setCookie (
+    cookie:string,
+    _headers?:Headers,
+):Headers
+```
+
+### Parse a cookie
+Parse a cookie string into a plain object.
+
+```js
+import { parseCookie } from '@nichoth/session-cookie'
+
+const parsed = parseCookie('session=vTAHUs4nBS65UPy4AdnIMVdh-5MeyJoZWxsbyI6IndvcmxkIn0; Max-Age=604800; Path=/; HttpOnly; Secure; SameSite=Lax')
+
+// =>
+//   {
+//      session: 'vTAHUs4nBS65UPy4AdnIMVdh-5MeyJoZWxsbyI6IndvcmxkIn0',
+//      'Max-Age': '604800',
+//      Path: '/',
+//      HttpOnly: true,
+//      Secure: true,
+//      SameSite: 'Lax'
+//   }
+```
+
+### Parse a session token
+Parse a session token. This will return whatever data was used to create the token.
+
+```js
+import { parseSession } from '@nichoth/session-cookie'
+
+const session = parseSession(parsed.session as string)
+// => { hello: 'world' }
+```
+
+### Verify a session token
+Verify the given session token. This checks that an embedded signature is correct for the associated data.
+
+```js
+import {
+    verifySessionString,
+    parseCookie
+} from '@nichoth/session-cookie'
+
+// ... get headers somehow ...
+
+const cookies = headers.getSetCookie()
+const cookie = parseCookie(cookies[0])
+const isOk = verifySessionString(cookie.session, SECRET_KEY)
+// => true
+```
+
+#### `verifySessionString(session, key)`
+
+```ts
+function verifySessionString (session:string, key:string):boolean
+```
+
+------------------------------------------------------------------------
+
+## Format
+
+This exposes ESM and common JS via [package.json `exports` field](https://nodejs.org/api/packages.html#exports).
+
+### ESM
+```js
+import '@nichoth/session-cookie'
+```
+
+### Common JS
+```js
+require('@nichoth/session-cookie')
+```
+
+## Generate a secret key
+Session cookies are signed using [HMAC SHA256](https://en.wikipedia.org/wiki/HMAC), which requires using a secret key of at least 32 bytes of length.
+
+This package conveniently include a command line tool to generate keys, exposed as `cookiekey`. After installing this as a dependency:
+
+```sh
+npx cookiekey
+```
