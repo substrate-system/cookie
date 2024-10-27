@@ -18,7 +18,7 @@ export const SESSION_COOKIE_NAME_DEFAULT = 'session'
  * Length of the signature digest, in characters.
  * Used to separate signature from data in the raw session cookie.
  */
-const SIGNATURE_DIGEST_LENGTH = 27
+const SIGNATURE_DIGEST_LENGTH = 43
 
 /**
  * Parse the given cookie string into an object of key - values.
@@ -81,13 +81,13 @@ export function setCookie (
  * @param name The name for the cookie; defaults to `session`
  * @returns {string} The cookie as string
  */
-export function createCookie (
+export async function createCookie (
     sessionData:Record<string, string>,
     secretKey:string,
     name?:string,
     env?:CookieEnv,
-):string {
-    const session = createSession(sessionData, secretKey)
+):Promise<string> {
+    const session = await createSession(sessionData, secretKey)
     const newCookie = serializeCookie(
         name || SESSION_COOKIE_NAME_DEFAULT,
         session,
@@ -105,17 +105,18 @@ export function createCookie (
  * environment variables if it is not passed in.
  * @returns {string} Signature + JSON session data encoded as base64
  */
-export function createSession (
+export async function createSession (
     newSessionData:Record<string, string>,
     secretKey:string
-):string {
+):Promise<string> {
     const key = secretKey
     const sessionAsJSON:string = stringify(newSessionData)
 
     const arrFromString = fromString(sessionAsJSON, 'utf-8')
     const base64Json = toString(arrFromString, 'base64')
+    const sig = await sign(sessionAsJSON, key)
     // sig + base64SessionValue
-    const session = sign(sessionAsJSON, key) + base64Json
+    const session = sig + base64Json
 
     return session
 }
@@ -134,9 +135,6 @@ export async function verifySessionString (
         0,
         SIGNATURE_DIGEST_LENGTH
     )
-
-    console.log('session string', session)
-    console.log('signature string', signature)
 
     try {
         let data:string = session.substring(SIGNATURE_DIGEST_LENGTH)
@@ -160,10 +158,13 @@ export async function verifySessionString (
  */
 async function verify (
     key:string,
-    data:Buffer|string,
+    data:Uint8Array|string,
     signature:string
 ):Promise<boolean> {
-    return await compare(signature, sign(data, key))
+    return await compare(signature, await sign(
+        typeof data === 'string' ? fromString(data) : data,
+        key
+    ))
 }
 
 /**
@@ -171,17 +172,34 @@ async function verify (
  *
  * @returns {string}
  */
-export function sign (data:Buffer|string, key:string, opts?:Partial<{
-    algorithm:'sha1'|'sha256'|'sha512';
-}>):string {
-    const algorithm = opts?.algorithm || 'sha1'
+export async function sign (data:string|Uint8Array, key:string, opts?:Partial<{
+    algorithm:'sha-256'|'sha-512';
+}>):Promise<string> {
+    const algorithm = opts?.algorithm || 'sha-256'
 
-    return crypto
-        .createHmac(algorithm, key)
-        .update(data).digest('base64')
-        .replace(/\/|\+|=/g, (x) => {
-            return ({ '/': '_', '+': '-', '=': '' })[x] as string
-        })
+    // this gets called with `sessionDataAsJSON` for data param,
+    // so if string, it is not base64 encoded
+
+    const signingKey = await webcrypto.subtle.importKey(
+        'raw',
+        fromString(key, 'base64'),
+        { name: 'HMAC', hash: algorithm },
+        false,
+        ['sign', 'verify']
+    )
+
+    const sig = await webcrypto.subtle.sign(
+        'HMAC',
+        signingKey,
+        typeof data === 'string' ? fromString(data) : data
+    )
+    const sigString = toString(new Uint8Array(sig), 'base64')
+
+    const str = sigString.replace(/\/|\+|=/g, (x) => {
+        return ({ '/': '_', '+': '-', '=': '' })[x] as string
+    })
+
+    return str
 }
 
 /**

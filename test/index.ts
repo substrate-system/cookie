@@ -12,7 +12,7 @@ const SECRET_KEY = '/pQCobVcOc+ru0WVTx24+MlCL7fIAPcPTsgGqXvV8M0='
 
 let session:string
 test('create a session', async t => {
-    session = createSession({ hello: 'world' }, SECRET_KEY)
+    session = await createSession({ hello: 'world' }, SECRET_KEY)
     t.equal(typeof session, 'string', 'should return a new session string')
 })
 
@@ -28,9 +28,8 @@ test('verify an invalid session', async t => {
 })
 
 let cookie
-test('create a cookie', t => {
-    cookie = createCookie({ hello: 'world' }, SECRET_KEY)
-    console.log('**cookie**', cookie)
+test('create a cookie', async t => {
+    cookie = await createCookie({ hello: 'world' }, SECRET_KEY)
     t.equal(typeof cookie, 'string', 'should return a string')
     t.ok(cookie.includes('session='), 'should include the default session name')
 })
@@ -56,9 +55,11 @@ test('Cookie in the headers', t => {
 
 let parsed:ReturnType<typeof parseCookie>
 test('parse a cookie', async t => {
-    parsed = parseCookie('session=vTAHUs4nBS65UPy4AdnIMVdh-5MeyJoZWxsbyI6IndvcmxkIn0; Max-Age=604800; Path=/; HttpOnly; Secure; SameSite=Lax')
+    t.plan(2)
+    parsed = parseCookie('session=N6bimY9qCPv7HdQ8NX1w6gUpuCU4tNawWwY0EvL3smAeyJoZWxsbyI6IndvcmxkIn0; Max-Age=604800; Path=/; HttpOnly; Secure; SameSite=Lax')
+
     t.deepEqual(parsed, {
-        session: 'vTAHUs4nBS65UPy4AdnIMVdh-5MeyJoZWxsbyI6IndvcmxkIn0',
+        session: 'N6bimY9qCPv7HdQ8NX1w6gUpuCU4tNawWwY0EvL3smAeyJoZWxsbyI6IndvcmxkIn0',
         'Max-Age': '604800',
         Path: '/',
         HttpOnly: true,
