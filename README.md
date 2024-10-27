@@ -69,12 +69,12 @@ console.log(cookie)
 #### `createCookie (sessionData, secretKey, name?, env?)`
 
 ```ts
-function createCookie (
+async function createCookie (
     sessionData:Record<string, string>,
     secretKey:string,
     name?:string,
     env?:CookieEnv,
-):string
+):Promise<string>
 ```
 
 ### Create headers
@@ -137,19 +137,22 @@ import {
 
 const cookies = headers.getSetCookie()
 const cookie = parseCookie(cookies[0])
-const isOk = verifySessionString(cookie.session, SECRET_KEY)
+const isOk = await verifySessionString(cookie.session, SECRET_KEY)
 // => true
 ```
 
 #### `verifySessionString(session, key)`
 
 ```ts
-function verifySessionString (session:string, key:string):boolean
+async function verifySessionString (
+    session:string,
+    key:string
+):Promise<boolean>
 ```
 
 ------------------------------------------------------------------------
 
-## Format
+## Module Format
 
 This exposes ESM and common JS via [package.json `exports` field](https://nodejs.org/api/packages.html#exports).
 
@@ -174,4 +177,4 @@ BGSzELbpBuESqmKyhtw/9zD7sHIy2hf/kSK0y0U0L60=
 ```
 
 ### Environment
-Save the secret key as part of your server environment; this system depends on always using the same secret key.
+Save the secret key as part of your server environment. This depends on always using the same secret key.

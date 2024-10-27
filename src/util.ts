@@ -22,28 +22,6 @@ const SESSION_COOKIE_MAX_AGE_SPAN_DEFAULT = (60 * 60 * 24 * 7)  // 1 week
  */
 const fieldContentRegExp = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/
 
-// function bufferEqual (a:Uint8Array, b:Uint8Array) {
-//     if (a.length !== b.length) {
-//         return false
-//     }
-
-//     // rm b/c cloudflare workers
-
-//     // `crypto.timingSafeEqual` was introduced in Node v6.6.0
-//     // <https://github.com/jshttp/basic-auth/issues/39>
-//     // if (crypto.timingSafeEqual) {
-//     //     return crypto.timingSafeEqual(a, b)
-//     // }
-
-//     for (let i = 0; i < a.length; i++) {
-//         if (a[i] !== b[i]) {
-//             return false
-//         }
-//     }
-
-//     return true
-// }
-
 export async function timeSafeCompare (a:string|Uint8Array, b:string|Uint8Array) {
     const bufA = typeof a === 'string' ? fromString(a) : a
     const bufB = typeof b === 'string' ? fromString(b) : b
@@ -54,14 +32,9 @@ export async function timeSafeCompare (a:string|Uint8Array, b:string|Uint8Array)
         ['sign', 'verify']
     ) as CryptoKey
 
-    // const ah = crypto.createHmac('sha256', key).update(sa).digest()
-    // const bh = crypto.createHmac('sha256', key).update(sb).digest()
-
     const hmac = await webcrypto.subtle.sign(algorithm, key, bufA)
     const equal = await webcrypto.subtle.verify(algorithm, key, hmac, bufB)
     return equal
-
-    // return bufferEqual(ah, bh) && a === b
 }
 
 export default timeSafeCompare
