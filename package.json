@@ -43,6 +43,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
+    "@bicycle-codes/one-webcrypto": "^1.1.2",
     "json-canon": "^1.0.1",
     "uint8arrays": "^5.1.0"
   },

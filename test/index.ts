@@ -16,14 +16,14 @@ test('create a session', async t => {
     t.equal(typeof session, 'string', 'should return a new session string')
 })
 
-test('verify the session string', t => {
-    const ok = verifySessionString(session, SECRET_KEY)
+test('verify the session string', async t => {
+    const ok = await verifySessionString(session, SECRET_KEY)
     t.ok(ok, 'should verify a valid token')
 })
 
-test('verify an invalid session', t => {
+test('verify an invalid session', async t => {
     const badToken = 'abc' + session
-    const ok = verifySessionString(badToken, SECRET_KEY)
+    const ok = await verifySessionString(badToken, SECRET_KEY)
     t.ok(!ok, 'should not verify an invalid token')
 })
 
@@ -55,7 +55,7 @@ test('Cookie in the headers', t => {
 })
 
 let parsed:ReturnType<typeof parseCookie>
-test('parse a cookie', t => {
+test('parse a cookie', async t => {
     parsed = parseCookie('session=vTAHUs4nBS65UPy4AdnIMVdh-5MeyJoZWxsbyI6IndvcmxkIn0; Max-Age=604800; Path=/; HttpOnly; Secure; SameSite=Lax')
     t.deepEqual(parsed, {
         session: 'vTAHUs4nBS65UPy4AdnIMVdh-5MeyJoZWxsbyI6IndvcmxkIn0',
@@ -66,12 +66,12 @@ test('parse a cookie', t => {
         SameSite: 'Lax'
     }, 'should parse the cookie string')
 
-    t.ok(verifySessionString(parsed.session, SECRET_KEY),
+    t.ok(await verifySessionString(parsed.session, SECRET_KEY),
         'should verify the session token')
 })
 
-test('parse the session string', t => {
-    t.ok(verifySessionString(parsed.session, SECRET_KEY),
+test('parse the session string', async t => {
+    t.ok(await verifySessionString(parsed.session, SECRET_KEY),
         'should be a valid session')
     const session = parseSession(parsed.session)
     t.deepEqual(session, {

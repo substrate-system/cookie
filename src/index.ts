@@ -126,7 +126,10 @@ export function createSession (
  * @param {string} session The encoded session cookie
  * @returns {boolean}
  */
-export function verifySessionString (session:string, key:string):boolean {
+export async function verifySessionString (
+    session:string,
+    key:string
+):Promise<boolean> {
     const signature = session.substring(
         0,
         SIGNATURE_DIGEST_LENGTH
@@ -138,7 +141,7 @@ export function verifySessionString (session:string, key:string):boolean {
         const arr = fromString(data, 'base64')
         data = toString(arr, 'utf-8')
 
-        return verify(key, data, signature)
+        return await verify(key, data, signature)
     } catch (_err) {
         return false
     }
@@ -152,12 +155,12 @@ export function verifySessionString (session:string, key:string):boolean {
  * @param {string} signature The signature to check
  * @returns {boolean} True or false, if the signature is valid or not
  */
-function verify (
+async function verify (
     key:string,
     data:Buffer|string,
     signature:string
-):boolean {
-    return compare(signature, sign(data, key))
+):Promise<boolean> {
+    return await compare(signature, sign(data, key))
 }
 
 /**
