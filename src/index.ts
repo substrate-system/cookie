@@ -1,4 +1,4 @@
-import crypto from 'node:crypto'
+import { webcrypto } from '@bicycle-codes/one-webcrypto'
 import stringify from 'json-canon'
 import { fromString, toString } from 'uint8arrays'
 import {
@@ -135,6 +135,9 @@ export async function verifySessionString (
         SIGNATURE_DIGEST_LENGTH
     )
 
+    console.log('session string', session)
+    console.log('signature string', signature)
+
     try {
         let data:string = session.substring(SIGNATURE_DIGEST_LENGTH)
         // data = Buffer.from(data, 'base64').toString('utf-8')
@@ -170,14 +173,12 @@ async function verify (
  */
 export function sign (data:Buffer|string, key:string, opts?:Partial<{
     algorithm:'sha1'|'sha256'|'sha512';
-    encoding:crypto.BinaryToTextEncoding;
 }>):string {
     const algorithm = opts?.algorithm || 'sha1'
-    const encoding = opts?.encoding || 'base64'
 
     return crypto
         .createHmac(algorithm, key)
-        .update(data).digest(encoding)
+        .update(data).digest('base64')
         .replace(/\/|\+|=/g, (x) => {
             return ({ '/': '_', '+': '-', '=': '' })[x] as string
         })
