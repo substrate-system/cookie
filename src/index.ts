@@ -138,7 +138,6 @@ export async function verifySessionString (
 
     try {
         let data:string = session.substring(SIGNATURE_DIGEST_LENGTH)
-        // data = Buffer.from(data, 'base64').toString('utf-8')
         const arr = fromString(data, 'base64')
         data = toString(arr, 'utf-8')
 
