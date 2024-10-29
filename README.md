@@ -150,6 +150,13 @@ async function verifySessionString (
 ):Promise<boolean>
 ```
 
+### Delete a cookie
+Do this serverside. Patch the given headers, removing the cookie.
+
+```ts
+function rmCookie (headers:Headers, name?:string):void
+```
+
 ------------------------------------------------------------------------
 
 ## Module Format
