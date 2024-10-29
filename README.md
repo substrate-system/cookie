@@ -20,6 +20,7 @@ Sign session data with a secret key.
   * [Parse a cookie](#parse-a-cookie)
   * [Parse a session token](#parse-a-session-token)
   * [Verify a session token](#verify-a-session-token)
+  * [Delete a cookie](#delete-a-cookie)
 - [Module Format](#module-format)
   * [ESM](#esm)
   * [Common JS](#common-js)
