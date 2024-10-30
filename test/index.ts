@@ -85,4 +85,6 @@ test('remove a cookie', async t => {
     const newHeaders = rmCookie(headers)
     t.ok(newHeaders.getSetCookie()[0].includes('01 Jan 1970 00:00:00'),
         'Cookie should include 1970 date')
+    t.ok(headers.getSetCookie()[0].includes('Jan 1970'),
+        'should patch the headers instance')
 })

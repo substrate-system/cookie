@@ -29,11 +29,8 @@ const SIGNATURE_DIGEST_LENGTH = 43
  */
 export function rmCookie (headers:Headers, name?:string):Headers {
     const key = name || SESSION_COOKIE_NAME_DEFAULT
-    const cookie = headers.getSetCookie()[0]
     const del = `${key}=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`
-    if (cookie) {
-        headers.set('Set-Cookie', del)
-    }
+    headers.set('Set-Cookie', del)
 
     return headers
 }
