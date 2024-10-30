@@ -21,19 +21,21 @@ export const SESSION_COOKIE_NAME_DEFAULT = 'session'
 const SIGNATURE_DIGEST_LENGTH = 43
 
 /**
- * Patch the given headers instance, removing the cookie.
+ * Patch and return the given headers instance, removing the cookie.
  *
  * @param {Headers} headers The headers to patch
  * @param {string} [name] Optional name of the cookie. Default is `session`.
- * @returns {void}
+ * @returns {Headers} The patchec headers
  */
-export function rmCookie (headers:Headers, name?:string):void {
+export function rmCookie (headers:Headers, name?:string):Headers {
     const key = name || SESSION_COOKIE_NAME_DEFAULT
     const cookie = headers.getSetCookie()[0]
     const del = `${key}=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`
     if (cookie) {
         headers.set('Set-Cookie', del)
     }
+
+    return headers
 }
 
 /**
@@ -51,7 +53,7 @@ export function parseCookie (
     const parsed = cookie.split(';').map(str => {
         const split = str.trim().split('=')
         return split
-    }).reduce<Record<string, string> & { session:string }>((acc, val) => {
+    }).reduce<Record<string, string|true> & { session:string }>((acc, val) => {
         acc[val[0]] = tryDecode(val[1], dec) ?? true
         return acc
     }, { session: '' })

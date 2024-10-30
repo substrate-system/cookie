@@ -4,6 +4,7 @@ import {
     createSession,
     verifySessionString,
     setCookie,
+    rmCookie,
     parseCookie,
     parseSession
 } from '../src/index.js'
@@ -78,4 +79,10 @@ test('parse the session string', async t => {
     t.deepEqual(session, {
         hello: 'world'
     }, 'should parse to the same data we passed in')
+})
+
+test('remove a cookie', async t => {
+    const newHeaders = rmCookie(headers)
+    t.ok(newHeaders.getSetCookie()[0].includes('01 Jan 1970 00:00:00'),
+        'Cookie should include 1970 date')
 })
