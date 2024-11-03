@@ -45,7 +45,10 @@ Create a string suitable for use as a cookie. Sign the given data with a secret 
 
 >
 > [!NOTE]  
-> This will add default values for additional cookie attributes -- `Max-Age=604800` (1 week), `Path=/`, `HttpOnly`, `Secure`, `SameSite=Lax`.
+> This will add default values for additional cookie attributes.
+> ```
+> session=N6bimY9qCPv7HdQ8NX1w6gUpuCU4tNawWwY0EvL3smAeyJoZWxsbyI6IndvcmxkIn0; Max-Age=604800; Path=/; HttpOnly; Secure; SameSite=Lax
+> ```
 >
 
 These environment variables can be used to set the cookie attributes:

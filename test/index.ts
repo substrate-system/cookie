@@ -31,6 +31,7 @@ test('verify an invalid session', async t => {
 let cookie
 test('create a cookie', async t => {
     cookie = await createCookie({ hello: 'world' }, SECRET_KEY)
+    console.log('**cookie**', cookie)
     t.equal(typeof cookie, 'string', 'should return a string')
     t.ok(cookie.includes('session='), 'should include the default session name')
 })
@@ -43,7 +44,7 @@ test('Create some headers', t => {
     const headers2 = new Headers()
     const headers3 = setCookie(cookie, headers2)
     t.equal(headers2, headers3, 'should patch a given Headers instance')
-    t.ok(parseCookie(headers2.getSetCookie()[0]).session,
+    t.ok(parseCookie(headers2.getSetCookie()[0])!.session,
         'should patch the headers we passsed in')
 })
 
@@ -68,14 +69,14 @@ test('parse a cookie', async t => {
         SameSite: 'Lax'
     }, 'should parse the cookie string')
 
-    t.ok(await verifySessionString(parsed.session, SECRET_KEY),
+    t.ok(await verifySessionString(parsed!.session, SECRET_KEY),
         'should verify the session token')
 })
 
 test('parse the session string', async t => {
-    t.ok(await verifySessionString(parsed.session, SECRET_KEY),
+    t.ok(await verifySessionString(parsed!.session, SECRET_KEY),
         'should be a valid session')
-    const session = parseSession(parsed.session)
+    const session = parseSession(parsed!.session)
     t.deepEqual(session, {
         hello: 'world'
     }, 'should parse to the same data we passed in')
