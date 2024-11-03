@@ -188,5 +188,6 @@ BGSzELbpBuESqmKyhtw/9zD7sHIy2hf/kSK0y0U0L60=
 ```
 
 ## Environment
-
 Save the secret key as part of your server environment. This depends on always using the same secret key.
+
+This works anywhere that supports the [Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API). Has been verified to work in Cloudflare and Node.
