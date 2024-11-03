@@ -1,6 +1,6 @@
 {
   "name": "@bicycle-codes/session-cookie",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Cookies",
   "directories": {
     "test": "test"
