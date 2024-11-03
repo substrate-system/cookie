@@ -10,7 +10,7 @@
 
 Sign a session cookie with a secret key (HMAC).
 
-This will stringify a JSON object in a [stable format](https://github.com/ahdinosaur/json-canon), then use an [HMAC key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/generateKey#hmac_key_generation) to create a signature. The final cookie value includes a token that is the signature concatted with the JSON you passed in, all base64 encoded.
+This will stringify a JSON object in a [stable format](https://github.com/ahdinosaur/json-canon), then use an [HMAC key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/generateKey#hmac_key_generation) to create a signature. The final cookie value includes a token that is the signature concatenated with the JSON you passed in, all base64 encoded.
 
 This conveniently [includes a command](#generate-a-secret-key) to generate keys as well.
 
