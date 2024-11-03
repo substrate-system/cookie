@@ -7,7 +7,7 @@
 [![install size](https://flat.badgen.net/packagephobia/install/@nichoth/session-cookie)](https://packagephobia.com/result?p=@nichoth/session-cookie)
 [![license](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
-Sign session data with a secret key.
+Sign a session cookie with a secret key.
 
 <details><summary><h2>Contents</h2></summary>
 
@@ -184,5 +184,6 @@ $ npx cookiekey
 BGSzELbpBuESqmKyhtw/9zD7sHIy2hf/kSK0y0U0L60=
 ```
 
-### Environment
+## Environment
+
 Save the secret key as part of your server environment. This depends on always using the same secret key.
