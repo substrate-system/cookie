@@ -25,7 +25,7 @@ Sign a session cookie with a secret key.
   * [ESM](#esm)
   * [Common JS](#common-js)
 - [Generate a secret key](#generate-a-secret-key)
-  * [Environment](#environment)
+- [Environment](#environment)
 
 <!-- tocstop -->
 
