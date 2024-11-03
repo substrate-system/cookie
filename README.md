@@ -5,6 +5,7 @@
 [![semantic versioning](https://img.shields.io/badge/semver-2.0.0-blue?logo=semver&style=flat-square)](https://semver.org/)
 [![Common Changelog](https://nichoth.github.io/badge/common-changelog.svg)](./CHANGELOG.md)
 [![install size](https://flat.badgen.net/packagephobia/install/@bicycle-codes/session-cookie)](https://packagephobia.com/result?p=@bicycle-codes/session-cookie)
+[![Socket Badge](https://socket.dev/api/badge/npm/package/@bicycle-codes/session-cookie)](https://socket.dev/npm/package/@bicycle-codes/session-cookie/overview)
 [![license](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
 Sign a session cookie with a secret key.
