@@ -228,10 +228,7 @@ export function parseSession<T=Record<string, string|boolean>> (
     const data:string = encodedSession.substring(SIGNATURE_DIGEST_LENGTH)
     const asBuf = fromString(data, 'base64')
     const asString = toString(asBuf, 'utf-8')
-    // const buf = Buffer.from(data, 'base64')
-    // const str = buf.toString('utf-8')
     return JSON.parse(asString)
-    // return JSON.parse(str)
 }
 
 /**
