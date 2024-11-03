@@ -1,10 +1,10 @@
 # session cookie
-![tests](https://github.com/nichoth/session-cookie/actions/workflows/nodejs.yml/badge.svg)
-[![types](https://img.shields.io/npm/types/@nichoth/session-cookie?style=flat-square)](README.md)
+![tests](https://github.com/bicycle-codes/session-cookie/actions/workflows/nodejs.yml/badge.svg)
+[![types](https://img.shields.io/npm/types/@bicycle-codes/session-cookie?style=flat-square)](README.md)
 [![module](https://img.shields.io/badge/module-ESM%2FCJS-blue?style=flat-square)](README.md)
 [![semantic versioning](https://img.shields.io/badge/semver-2.0.0-blue?logo=semver&style=flat-square)](https://semver.org/)
 [![Common Changelog](https://nichoth.github.io/badge/common-changelog.svg)](./CHANGELOG.md)
-[![install size](https://flat.badgen.net/packagephobia/install/@nichoth/session-cookie)](https://packagephobia.com/result?p=@nichoth/session-cookie)
+[![install size](https://flat.badgen.net/packagephobia/install/@bicycle-codes/session-cookie)](https://packagephobia.com/result?p=@bicycle-codes/session-cookie)
 [![license](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
 Sign a session cookie with a secret key.
@@ -34,7 +34,7 @@ Sign a session cookie with a secret key.
 ## install
 
 ```sh
-npm i -S @nichoth/session-cookie
+npm i -S @bicycle-codes/session-cookie
 ```
 
 ## Example
@@ -60,7 +60,7 @@ SESSION_COOKIE_PATH
 ```
 
 ```js
-import { createCookie } from '@nichoth/session-cookie'
+import { createCookie } from '@bicycle-codes/session-cookie'
 
 const cookie = createCookie({ hello: 'world' }, SECRET_KEY)
 console.log(cookie)
@@ -82,7 +82,7 @@ async function createCookie (
 Create or patch a `Headers` instance.
 
 ```js
-import { setCookie } from '@nichoth/session-cookie'
+import { setCookie } from '@bicycle-codes/session-cookie'
 
 const headers = setCookie(cookie)
 ```
@@ -100,7 +100,7 @@ function setCookie (
 Parse a cookie string into a plain object.
 
 ```js
-import { parseCookie } from '@nichoth/session-cookie'
+import { parseCookie } from '@bicycle-codes/session-cookie'
 
 const parsed = parseCookie('session=vTAHUs4nBS65UPy4AdnIMVdh-5MeyJoZWxsbyI6IndvcmxkIn0; Max-Age=604800; Path=/; HttpOnly; Secure; SameSite=Lax')
 
@@ -119,7 +119,7 @@ const parsed = parseCookie('session=vTAHUs4nBS65UPy4AdnIMVdh-5MeyJoZWxsbyI6Indvc
 Parse a session token. This will return whatever data was used to create the token.
 
 ```js
-import { parseSession } from '@nichoth/session-cookie'
+import { parseSession } from '@bicycle-codes/session-cookie'
 
 const session = parseSession(parsed.session as string)
 // => { hello: 'world' }
@@ -132,7 +132,7 @@ Verify the given session token. This checks that an embedded signature is correc
 import {
     verifySessionString,
     parseCookie
-} from '@nichoth/session-cookie'
+} from '@bicycle-codes/session-cookie'
 
 // ... get headers somehow ...
 
@@ -166,12 +166,12 @@ This exposes ESM and common JS via [package.json `exports` field](https://nodejs
 
 ### ESM
 ```js
-import '@nichoth/session-cookie'
+import '@bicycle-codes/session-cookie'
 ```
 
 ### Common JS
 ```js
-require('@nichoth/session-cookie')
+require('@bicycle-codes/session-cookie')
 ```
 
 ## Generate a secret key
