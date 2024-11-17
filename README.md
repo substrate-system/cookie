@@ -8,7 +8,10 @@
 [![Socket Badge](https://socket.dev/api/badge/npm/package/@bicycle-codes/session-cookie)](https://socket.dev/npm/package/@bicycle-codes/session-cookie/overview)
 [![license](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
-Sign a cookie with a secret key (HMAC).
+Create signed cookies with an [HMAC key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/sign#hmac), and verify them.
+
+* [x] works in Cloulfare
+* [x] works in Node
 
 This will stringify a JSON object in a [stable format](https://github.com/ahdinosaur/json-canon), then use an [HMAC key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/generateKey#hmac_key_generation) to create a signature. The final cookie value includes a token that is the signature concatenated with the JSON you passed in, all base64 encoded.
 
@@ -19,15 +22,6 @@ This conveniently [includes a command](#generate-a-secret-key) to generate keys 
 [Parsing a session token](#parse-a-session-token) will return the object that you passed in when creating the token, useful for embedding an ID, or any data you want to be certain has not been changed.
 
 Verify the signature with [`verifySessionString`](#verify-a-session-token).
-
-------------------------------
-
-Create signed cookies with an [HMAC key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/sign#hmac), and verify them.
-
-* [x] works in Cloulfare
-* [x] works in Node
-
-Pass in arbitrary data to be added to a `session` cookie value. This library parses the `session` value and verifies the signature.
 
 <details><summary><h2>Contents</h2></summary>
 
