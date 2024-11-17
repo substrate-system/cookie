@@ -4,11 +4,11 @@
 [![module](https://img.shields.io/badge/module-ESM%2FCJS-blue?style=flat-square)](README.md)
 [![semantic versioning](https://img.shields.io/badge/semver-2.0.0-blue?logo=semver&style=flat-square)](https://semver.org/)
 [![Common Changelog](https://nichoth.github.io/badge/common-changelog.svg)](./CHANGELOG.md)
-[![install size](https://flat.badgen.net/packagephobia/install/@bicycle-codes/session-cookie)](https://packagephobia.com/result?p=@bicycle-codes/session-cookie)
+[![install size](https://flat.badgen.net/packagephobia/install/@bicycle-codes/session-cookie&cache-control=no-cache)](https://packagephobia.com/result?p=@bicycle-codes/session-cookie)
 [![Socket Badge](https://socket.dev/api/badge/npm/package/@bicycle-codes/session-cookie)](https://socket.dev/npm/package/@bicycle-codes/session-cookie/overview)
 [![license](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
-Sign a session cookie with a secret key (HMAC).
+Sign a cookie with a secret key (HMAC).
 
 This will stringify a JSON object in a [stable format](https://github.com/ahdinosaur/json-canon), then use an [HMAC key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/generateKey#hmac_key_generation) to create a signature. The final cookie value includes a token that is the signature concatenated with the JSON you passed in, all base64 encoded.
 
