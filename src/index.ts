@@ -224,7 +224,7 @@ export async function sign (data:string|Uint8Array, key:string, opts?:Partial<{
  */
 export function parseSession<T=Record<string, string|boolean>> (
     encodedSession:string
-):T {
+):T|null {
     const data:string = encodedSession.substring(SIGNATURE_DIGEST_LENGTH)
     const asBuf = fromString(data, 'base64')
     const asString = toString(asBuf, 'utf-8')

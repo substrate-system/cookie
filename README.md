@@ -22,7 +22,12 @@ Verify the signature with [`verifySessionString`](#verify-a-session-token).
 
 ------------------------------
 
-Serverside code has been tested to work in Cloudflare workers and Node.
+Create signed cookies with an [HMAC key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/sign#hmac), and verify them.
+
+* [x] works in Cloulfare
+* [x] works in Node
+
+Pass in arbitrary data to be added to a `session` cookie value. This library parses the `session` value and verifies the signature.
 
 <details><summary><h2>Contents</h2></summary>
 
