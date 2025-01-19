@@ -1,12 +1,13 @@
-# session cookie
+# cookie
 ![tests](https://github.com/bicycle-codes/session-cookie/actions/workflows/nodejs.yml/badge.svg)
 [![types](https://img.shields.io/npm/types/@bicycle-codes/session-cookie?style=flat-square)](README.md)
 [![module](https://img.shields.io/badge/module-ESM%2FCJS-blue?style=flat-square)](README.md)
 [![semantic versioning](https://img.shields.io/badge/semver-2.0.0-blue?logo=semver&style=flat-square)](https://semver.org/)
 [![Common Changelog](https://nichoth.github.io/badge/common-changelog.svg)](./CHANGELOG.md)
-[![install size](https://flat.badgen.net/packagephobia/install/@bicycle-codes/session-cookie&cache-control=no-cache)](https://packagephobia.com/result?p=@bicycle-codes/session-cookie)
+[![install size](https://flat.badgen.net/packagephobia/install/@bicycle-codes/session-cookie?cache-control=no-cache)](https://packagephobia.com/result?p=@bicycle-codes/session-cookie)
 [![Socket Badge](https://socket.dev/api/badge/npm/package/@bicycle-codes/session-cookie)](https://socket.dev/npm/package/@bicycle-codes/session-cookie/overview)
-[![license](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+[![license](https://img.shields.io/badge/license-Polyform_Non_Commercial-26bc71?style=flat-square)](LICENSE)
+
 
 Create signed cookies with an [HMAC key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/sign#hmac), and verify them.
 
