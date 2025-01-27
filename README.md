@@ -134,6 +134,18 @@ const parsed = parseCookie('session=vTAHUs4nBS65UPy4AdnIMVdh-5MeyJoZWxsbyI6Indvc
 //   }
 ```
 
+#### Cloudflare example
+Get the cookie via request headers. An example in Cloudflare:
+
+```js
+import { parseCookie } from '@bicycle-codes/session-cookie'
+
+export const onRequest:PagesFunction<Env> = async (ctx) => {
+  const cookieHeader = ctx.request.headers.get('Cookie')
+  const cookie = parseCookie(cookieHeader)
+}
+```
+
 ### Parse a session token
 Parse a session token. This will return whatever data was used to create the token.
 
