@@ -1,6 +1,6 @@
 {
   "name": "@substrate-system/cookie",
-  "version": "0.3.11",
+  "version": "0.3.12",
   "description": "Cookies",
   "directories": {
     "test": "test"
