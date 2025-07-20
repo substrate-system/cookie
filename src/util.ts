@@ -1,5 +1,5 @@
 'use strict'
-import { webcrypto } from '@bicycle-codes/one-webcrypto'
+import { webcrypto } from '@substrate-system/one-webcrypto'
 import { fromString } from 'uint8arrays'
 
 /**

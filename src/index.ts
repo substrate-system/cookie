@@ -1,4 +1,4 @@
-import { webcrypto } from '@bicycle-codes/one-webcrypto'
+import { webcrypto } from '@substrate-system/one-webcrypto'
 import stringify from 'json-canon'
 import { fromString, toString } from 'uint8arrays'
 import {
