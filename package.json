@@ -67,7 +67,7 @@
   "author": "nichoth <nichoth@nichoth.com> (https://nichoth.com)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/substrate-system/session-cookie.git"
+    "url": "git+https://github.com/substrate-system/cookie.git"
   },
   "keywords": [
     "cookie",
@@ -76,8 +76,8 @@
   ],
   "types": "./dist/index.d.ts",
   "bugs": {
-    "url": "https://github.com/substrate-system/session-cookie/issues"
+    "url": "https://github.com/substrate-system/cookie/issues"
   },
-  "homepage": "https://github.com/substrate-system/session-cookie#readme",
+  "homepage": "https://github.com/substrate-system/cookie#readme",
   "license": "SEE LICENSE IN LICENSE"
 }
