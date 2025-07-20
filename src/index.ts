@@ -7,7 +7,7 @@ import {
     timeSafeCompare as compare,
     serializeCookie
 } from './util.js'
-export { serializeCookie }
+export { serializeCookie, CookieEnv }
 
 /**
  * Name to be used for the session cookie if none provided.
