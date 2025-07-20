@@ -1,12 +1,11 @@
 # cookie
-![tests](https://github.com/bicycle-codes/session-cookie/actions/workflows/nodejs.yml/badge.svg)
-[![types](https://img.shields.io/npm/types/@bicycle-codes/session-cookie?style=flat-square)](README.md)
+[![tests](https://img.shields.io/github/actions/workflow/status/substrate-system/cookie/nodejs.yml?style=flat-square)](https://github.com/substrate-system/cookie/actions/workflows/nodejs.yml)
+[![types](https://img.shields.io/npm/types/@substrate-system/cookie?style=flat-square)](README.md)
 [![module](https://img.shields.io/badge/module-ESM%2FCJS-blue?style=flat-square)](README.md)
 [![semantic versioning](https://img.shields.io/badge/semver-2.0.0-blue?logo=semver&style=flat-square)](https://semver.org/)
 [![Common Changelog](https://nichoth.github.io/badge/common-changelog.svg)](./CHANGELOG.md)
-[![install size](https://flat.badgen.net/packagephobia/install/@bicycle-codes/session-cookie?cache-control=no-cache)](https://packagephobia.com/result?p=@bicycle-codes/session-cookie)
-[![Socket Badge](https://socket.dev/api/badge/npm/package/@bicycle-codes/session-cookie)](https://socket.dev/npm/package/@bicycle-codes/session-cookie/overview)
-[![license](https://img.shields.io/badge/license-Polyform_Non_Commercial-26bc71?style=flat-square)](LICENSE)
+[![install size](https://flat.badgen.net/packagephobia/install/@substrate-system/cookie?cache-control=no-cache)](https://packagephobia.com/result?p=@substrate-system/cookie)
+[![license](https://img.shields.io/badge/license-Big_Time-blue?style=flat-square)](LICENSE)
 
 
 Create signed cookies with an [HMAC key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/sign#hmac), and verify them.
@@ -14,13 +13,21 @@ Create signed cookies with an [HMAC key](https://developer.mozilla.org/en-US/doc
 * [x] works in Cloudflare
 * [x] works in Node
 
-This will stringify a JSON object in a [stable format](https://github.com/ahdinosaur/json-canon), then use an [HMAC key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/generateKey#hmac_key_generation) to create a signature. The final cookie value includes a token that is the signature concatenated with the JSON you passed in, all base64 encoded.
+This will stringify a JSON object in a
+[stable format](https://github.com/ahdinosaur/json-canon),
+then use an [HMAC key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/generateKey#hmac_key_generation)
+to create a signature. The final cookie value includes a token that is the
+signature concatenated with the JSON you passed in, all base64 encoded.
 
-This conveniently [includes a command](#generate-a-secret-key) to generate keys as well.
+This conveniently [includes a command](#generate-a-secret-key) to
+generate keys as well.
 
-[Parsing the cookie](#parse-a-cookie) will return the cookie as a plain object, plus a "session token" -- the base64 encoded HMAC signature + session data.
+[Parsing the cookie](#parse-a-cookie) will return the cookie as a plain object,
+plus a token -- the base64 encoded HMAC signature + session data.
 
-[Parsing a session token](#parse-a-session-token) will return the object that you passed in when creating the token, useful for embedding an ID, or any data you want to be certain has not been changed.
+[Parsing a session token](#parse-a-session-token) will return the object that
+you passed in when creating the token, useful for embedding an ID, or any data
+you want to be certain has not been changed.
 
 Verify the signature with [`verifySessionString`](#verify-a-session-token).
 
@@ -50,14 +57,15 @@ Verify the signature with [`verifySessionString`](#verify-a-session-token).
 ## install
 
 ```sh
-npm i -S @bicycle-codes/session-cookie
+npm i -S @substrate-system/cookie
 ```
 
 ## Example
 These functions should all be run in a server.
 
 ### Create a cookie
-Create a string suitable for use as a cookie. Sign the given data with a secret key, and stringify the signature + JSON data as a `base64` string.
+Create a string suitable for use as a cookie. Sign the given data with a secret
+key, and stringify the signature + JSON data as a `base64` string.
 
 >
 > [!NOTE]  
@@ -70,16 +78,16 @@ Create a string suitable for use as a cookie. Sign the given data with a secret 
 These environment variables can be used to set the cookie attributes:
 
 ```
-SESSION_COOKIE_HTTPONLY
-SESSION_COOKIE_SECURE
-SESSION_COOKIE_SAMESITE
-SESSION_COOKIE_MAX_AGE_SPAN
-SESSION_COOKIE_DOMAIN
-SESSION_COOKIE_PATH
+COOKIE_HTTPONLY
+COOKIE_SECURE
+COOKIE_SAMESITE
+COOKIE_MAX_AGE_SPAN
+COOKIE_DOMAIN
+COOKIE_PATH
 ```
 
 ```js
-import { createCookie } from '@bicycle-codes/session-cookie'
+import { createCookie } from '@substrate-system/cookie'
 
 const cookie = createCookie({ hello: 'world' }, SECRET_KEY)
 console.log(cookie)
@@ -101,7 +109,7 @@ async function createCookie (
 Create or patch a `Headers` instance.
 
 ```js
-import { setCookie } from '@bicycle-codes/session-cookie'
+import { setCookie } from '@substrate-system/cookie'
 
 const headers = setCookie(cookie)
 ```
@@ -119,7 +127,7 @@ function setCookie (
 Parse a cookie string into a plain object.
 
 ```js
-import { parseCookie } from '@bicycle-codes/session-cookie'
+import { parseCookie } from '@substrate-system/cookie'
 
 const parsed = parseCookie('session=vTAHUs4nBS65UPy4AdnIMVdh-5MeyJoZWxsbyI6IndvcmxkIn0; Max-Age=604800; Path=/; HttpOnly; Secure; SameSite=Lax')
 
@@ -141,7 +149,7 @@ Get the cookie via request headers. An example in Cloudflare:
 import {
   parseCookie,
   verifySessionString
-} from '@bicycle-codes/session-cookie'
+} from '@substrate-system/cookie'
 
 export const onRequest:PagesFunction<Env> = async (ctx) => {
   const cookieHeader = ctx.request.headers.get('Cookie')
@@ -159,23 +167,25 @@ export const onRequest:PagesFunction<Env> = async (ctx) => {
 ```
 
 ### Parse a session token
-Parse a session token. This will return whatever data was used to create the token.
+Parse a session token. This will return whatever data was used to create
+the token.
 
 ```js
-import { parseSession } from '@bicycle-codes/session-cookie'
+import { parseSession } from '@substrate-system/cookie'
 
 const session = parseSession(parsed.session as string)
 // => { hello: 'world' }
 ```
 
 ### Verify a session token
-Verify the given session token. This checks that an embedded signature is correct for the associated data.
+Verify the given session token. This checks that an embedded signature is
+correct for the associated data.
 
 ```js
 import {
     verifySessionString,
     parseCookie
-} from '@bicycle-codes/session-cookie'
+} from '@substrate-system/cookie'
 
 // ... get headers somehow ...
 
@@ -205,22 +215,25 @@ function rmCookie (headers:Headers, name?:string):void
 
 ## Module Format
 
-This exposes ESM and common JS via [package.json `exports` field](https://nodejs.org/api/packages.html#exports).
+This exposes ESM and common JS via
+[package.json `exports` field](https://nodejs.org/api/packages.html#exports).
 
 ### ESM
 ```js
-import '@bicycle-codes/session-cookie'
+import '@substrate-system/cookie'
 ```
 
 ### Common JS
 ```js
-require('@bicycle-codes/session-cookie')
+require('@substrate-system/cookie')
 ```
 
 ## Generate a secret key
-Session cookies are signed using [HMAC SHA256](https://en.wikipedia.org/wiki/HMAC), which requires using a secret key of at least 32 bytes of length.
+Session cookies are signed using [HMAC SHA256](https://en.wikipedia.org/wiki/HMAC),
+which requires using a secret key of at least 32 bytes of length.
 
-This package conveniently includes a command line tool to generate keys, exposed as `cookiekey`. After installing this as a dependency, use it like this:
+This package conveniently includes a command line tool to generate keys,
+exposed as `cookiekey`. After installing this as a dependency, use it like this:
 
 ```sh
 $ npx cookiekey
@@ -228,10 +241,14 @@ BGSzELbpBuESqmKyhtw/9zD7sHIy2hf/kSK0y0U0L60=
 ```
 
 ## Environment
-Save the secret key as part of your server environment. This depends on always using the same secret key.
+Save the secret key as part of your server environment. This depends on
+always using the same secret key.
 
-This works anywhere that supports the [Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API). Has been verified to work in Cloudflare and Node.
+This works anywhere that supports the
+[Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API).
+Has been verified to work in Cloudflare and Node.
+
 
 ## See also
 
-* [The docs generated from typescript](https://bicycle-codes.github.io/session-cookie/)
+* [The docs generated from typescript](https://substrate-system.github.io/cookie/)
