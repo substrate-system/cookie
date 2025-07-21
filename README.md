@@ -61,7 +61,75 @@ npm i -S @substrate-system/cookie
 ```
 
 ## Example
+
 These functions should all be run in a server.
+
+### Set the cookie
+
+```ts
+import {
+  setCookie,
+  createCookie,
+} from '@substrate-system/cookie'
+const { SECRET_KEY } = process.env
+
+const cookie = createCookie({ hello: 'world' }, SECRET_KEY)
+// => session=vTAHUs4...; Max-Age=604800; Path=/; HttpOnly; Secure; SameSite=Lax
+
+// send our cookie to the client
+// create a Headers instance
+const headers = setCookie(cookie)
+
+// send the cookie in the response
+return new Response('hello', {
+  status: 200,
+  headers
+})
+```
+
+### Read the cookie
+
+In the future, the cookie gets sent back in a request.
+
+Assuming request is a [Request object](https://developer.mozilla.org/en-US/docs/Web/API/Request),
+
+```ts
+import {
+  parseCookie,
+  verifySessionString,
+  parseSession
+} from '@substrate-system/cookie'
+const { SECRET_KEY } = process.env
+
+export default async function onRequest (request:Request) {
+  const cookies = request.headers.getSetCookie()
+
+  if (!cookies.length) {
+    // no cookie, need to login
+    return new Response(null, { status: 401 })
+  }
+
+  // first parse the cookie, so we can read the session data
+  const parsedCookie = parseCookie(cookies[0])
+
+  // now verify the signature
+  const isOk = await verifySessionString(parsedCookie.session, SECRET_KEY)
+
+  if (!isOk) {
+    // has cookie, signature is not valid
+    return new Response(null, { status: 403 })
+  }
+
+  // parse the session,
+  // get the data that we encoded
+  const session = parseSession(parsedCookie.session)
+  // => { hello: 'world' }
+
+  // do something with the verified data
+}
+```
+
+## API
 
 ### Create a cookie
 Create a string suitable for use as a cookie. Sign the given data with a secret
@@ -153,27 +221,34 @@ import {
 
 export const onRequest:PagesFunction<Env> = async (ctx) => {
   const cookieHeader = ctx.request.headers.get('Cookie')
+
   // first get the cookie data
   const cookie = parseCookie(cookieHeader)
 
   // now parse and verify the token
   const { session } = cookie
-  const sessionOk = verifySessionString(session, env.SESSION_COOKIE_SECRET)
+  const sessionOk = verifySessionString(session, env.COOKIE_SECRET)
   if (!sessionOk) return new Response(null, { status: 403 })
 
-  // get any data you encoded into the session string
+  // get any data encoded in the session string
   const { id } = parseSession(session)
 }
 ```
 
 ### Parse a session token
-Parse a session token. This will return whatever data was used to create
-the token.
+Parsing a cookie returns all the cookie properties as an object, one of
+which is `session`. The session is arbitrary data, `base64` encoded and
+signed with the secret key. Parsing the session string will return whatever
+data was encoded originally.
 
-```js
-import { parseSession } from '@substrate-system/cookie'
+```ts
+import {
+  parseSession,
+  parseCookie
+} from '@substrate-system/cookie'
 
-const session = parseSession(parsed.session as string)
+parsed = parseCookie('session=N6bimY9...; Max-Age=604800; Path=/; HttpOnly; Secure; SameSite=Lax')
+const session = parseSession(parsed!.session)
 // => { hello: 'world' }
 ```
 
@@ -252,3 +327,4 @@ Has been verified to work in Cloudflare and Node.
 ## See also
 
 * [The docs generated from typescript](https://substrate-system.github.io/cookie/)
+* [Secure cookie configuration](https://developer.mozilla.org/en-US/docs/Web/Security/Practical_implementation_guides/Cookies)

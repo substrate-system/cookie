@@ -43,11 +43,10 @@ export function rmCookie (headers:Headers, name?:string):Headers {
  * @returns {Record<string, string>}
  */
 export function parseCookie (
-    cookie?:string|null,
+    cookie:string,
     _decode?:(s:string)=>string
-):(Record<string, string|boolean> & { session:string }|null) {
+):(Record<string, string|boolean> & { session:string }) {
     const dec = _decode || decode
-    if (!cookie) return null
     const parsed = cookie.split(';').map(str => {
         const split = str.trim().split('=')
         return split

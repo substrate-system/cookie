@@ -5,7 +5,7 @@ import { fromString } from 'uint8arrays'
 /**
  * Default for the "Max-Age" attribute of the session cookie.
  */
-const SESSION_COOKIE_MAX_AGE_SPAN_DEFAULT = (60 * 60 * 24 * 7)  // 1 week
+const COOKIE_MAX_AGE_SPAN_DEFAULT = (60 * 60 * 24 * 7)  // 1 week
 
 // Implements Brad Hill's Double HMAC pattern from
 // https://www.nccgroup.trust/us/about-us/newsroom-and-events/blog/2011/february/double-hmac-verification/.
@@ -201,12 +201,12 @@ function isDate (val:any):boolean {
 }
 
 export type CookieEnv = Partial<{
-    SESSION_COOKIE_HTTPONLY:string;
-    SESSION_COOKIE_SECURE:string;
-    SESSION_COOKIE_SAMESITE:string;
-    SESSION_COOKIE_MAX_AGE_SPAN:string;
-    SESSION_COOKIE_DOMAIN:string;
-    SESSION_COOKIE_PATH:string;
+    COOKIE_HTTPONLY:string;
+    COOKIE_SECURE:string;
+    COOKIE_SAMESITE:string;
+    COOKIE_MAX_AGE_SPAN:string;
+    COOKIE_DOMAIN:string;
+    COOKIE_PATH:string;
 }>
 
 /**
@@ -214,21 +214,21 @@ export type CookieEnv = Partial<{
  * All options have defaults which can be edited using environment variables.
  *
  * Environment variables available:
- * - `env.SESSION_COOKIE_HTTPONLY`:
+ * - `env.COOKIE_HTTPONLY`:
  *   Specifies if the cookie should have the `HttpOnly` attribute.
  *   Set to "0" to remove this attribute from the cookie definition.
- * - `env.SESSION_COOKIE_SECURE`:
+ * - `env.COOKIE_SECURE`:
  *   Specifies if the cookie should have the `Secure` attribute.
  *   Set to "0" to remove this attribute from the cookie definition.
- * - `env.SESSION_COOKIE_SAMESITE`:
+ * - `env.COOKIE_SAMESITE`:
  *   Will specify the value for the `SameSite` attribute for the cookie.
  *   Can be "Strict", "None" or "Lax" (default).
- * - `env.SESSION_COOKIE_MAX_AGE_SPAN`:
+ * - `env.COOKIE_MAX_AGE_SPAN`:
  *   Specifies, in second, how long the cookie should be valid for.
  *   Defaults to 7 days.
- * - `env.SESSION_COOKIE_DOMAIN`:
+ * - `env.COOKIE_DOMAIN`:
  *   If set, will specify a value for the `Domain` attribute for the cookie.
- * - `env.SESSION_COOKIE_PATH`:
+ * - `env.COOKIE_PATH`:
  *   If set, will specify a value for the `Path` attribute for the cookie.
  *   Defaults to `/`.
  *
@@ -248,7 +248,7 @@ export function getCookieOptions (env:CookieEnv = {}) {
         httpOnly: true,
         secure: true,
         sameSite: 'lax',
-        maxAge: SESSION_COOKIE_MAX_AGE_SPAN_DEFAULT,
+        maxAge: COOKIE_MAX_AGE_SPAN_DEFAULT,
         path: '/'
     }
 
@@ -256,42 +256,42 @@ export function getCookieOptions (env:CookieEnv = {}) {
     // Use environment variables to edit defaults.
     //
     const {
-        SESSION_COOKIE_HTTPONLY,
-        SESSION_COOKIE_SECURE,
-        SESSION_COOKIE_SAMESITE,
-        SESSION_COOKIE_MAX_AGE_SPAN,
-        SESSION_COOKIE_DOMAIN,
-        SESSION_COOKIE_PATH
+        COOKIE_HTTPONLY,
+        COOKIE_SECURE,
+        COOKIE_SAMESITE,
+        COOKIE_MAX_AGE_SPAN,
+        COOKIE_DOMAIN,
+        COOKIE_PATH
     } = env
 
     // HttpOnly
-    if (SESSION_COOKIE_HTTPONLY === '0') {
+    if (COOKIE_HTTPONLY === '0') {
         delete options.httpOnly
     }
 
     // Secure
-    if (SESSION_COOKIE_SECURE === '0') {
+    if (COOKIE_SECURE === '0') {
         delete options.secure
     }
 
     // SameSite
-    if (['Strict', 'Lax', 'None'].includes(SESSION_COOKIE_SAMESITE!)) {
-        options.sameSite = SESSION_COOKIE_SAMESITE!.toLowerCase()
+    if (['Strict', 'Lax', 'None'].includes(COOKIE_SAMESITE!)) {
+        options.sameSite = COOKIE_SAMESITE!.toLowerCase()
     }
 
     // Max-Age
-    if (!isNaN(parseInt(SESSION_COOKIE_MAX_AGE_SPAN!))) {
-        options.maxAge = parseInt(SESSION_COOKIE_MAX_AGE_SPAN!)
+    if (!isNaN(parseInt(COOKIE_MAX_AGE_SPAN!))) {
+        options.maxAge = parseInt(COOKIE_MAX_AGE_SPAN!)
     }
 
     // Domain
-    if (SESSION_COOKIE_DOMAIN) {
-        options.domain = SESSION_COOKIE_DOMAIN
+    if (COOKIE_DOMAIN) {
+        options.domain = COOKIE_DOMAIN
     }
 
     // Path
-    if (SESSION_COOKIE_PATH) {
-        options.path = SESSION_COOKIE_PATH
+    if (COOKIE_PATH) {
+        options.path = COOKIE_PATH
     }
 
     return options
