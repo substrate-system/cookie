@@ -37,6 +37,9 @@ Verify the signature with [`verifySessionString`](#verify-a-session-token).
 
 - [install](#install)
 - [Example](#example)
+  * [Set the cookie](#set-the-cookie)
+  * [Read the cookie](#read-the-cookie)
+- [API](#api)
   * [Create a cookie](#create-a-cookie)
   * [Create headers](#create-headers)
   * [Parse a cookie](#parse-a-cookie)
