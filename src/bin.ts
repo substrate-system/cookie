@@ -1,4 +1,4 @@
-#!/usr/bin/env
+#!/usr/bin/env node
 import crypto from 'node:crypto'
 
 console.log(generateSecretKey())
