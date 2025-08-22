@@ -176,7 +176,9 @@ async function verify (
     signature:string
 ):Promise<boolean> {
     return await compare(signature, await sign(
-        typeof data === 'string' ? fromString(data) : data,
+        (typeof data === 'string' ?
+            fromString(data) :
+            data) as Uint8Array<ArrayBuffer>,
         key
     ))
 }
@@ -186,9 +188,13 @@ async function verify (
  *
  * @returns {string}
  */
-export async function sign (data:string|Uint8Array, key:string, opts?:Partial<{
-    algorithm:'sha-256'|'sha-512';
-}>):Promise<string> {
+export async function sign (
+    data:string|Uint8Array<ArrayBuffer>,
+    key:string,
+    opts?:Partial<{
+        algorithm:'sha-256'|'sha-512';
+    }>
+):Promise<string> {
     const algorithm = opts?.algorithm || 'sha-256'
 
     // this gets called with `sessionDataAsJSON` for data param,
@@ -196,16 +202,20 @@ export async function sign (data:string|Uint8Array, key:string, opts?:Partial<{
 
     const signingKey = await webcrypto.subtle.importKey(
         'raw',
-        fromString(key, 'base64'),
+        (fromString(key, 'base64')) as Uint8Array<ArrayBuffer>,
         { name: 'HMAC', hash: algorithm },
         false,
         ['sign', 'verify']
     )
 
+    const _data = typeof data === 'string' ?
+        fromString(data) as Uint8Array<ArrayBuffer> :
+        data
+
     const sig = await webcrypto.subtle.sign(
         'HMAC',
         signingKey,
-        typeof data === 'string' ? fromString(data) : data
+        _data
     )
     const sigString = toString(new Uint8Array(sig), 'base64')
 
