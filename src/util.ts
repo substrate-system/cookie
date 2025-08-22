@@ -22,9 +22,16 @@ const COOKIE_MAX_AGE_SPAN_DEFAULT = (60 * 60 * 24 * 7)  // 1 week
  */
 const fieldContentRegExp = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/
 
-export async function timeSafeCompare (a:string|Uint8Array, b:string|Uint8Array) {
-    const bufA = typeof a === 'string' ? fromString(a) : a
-    const bufB = typeof b === 'string' ? fromString(b) : b
+export async function timeSafeCompare (
+    a:string|Uint8Array<ArrayBuffer>,
+    b:string|Uint8Array<ArrayBuffer>
+) {
+    const bufA = typeof a === 'string' ?
+        fromString(a) as Uint8Array<ArrayBuffer> :
+        a
+    const bufB = typeof b === 'string' ?
+        fromString(b) as Uint8Array<ArrayBuffer> :
+        b
     const algorithm = { name: 'HMAC', hash: 'SHA-256' }
     const key = await webcrypto.subtle.generateKey(
         algorithm,
